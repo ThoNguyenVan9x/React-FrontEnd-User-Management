@@ -4,4 +4,8 @@ const fetchAllUser = (pageIndex) => {
     return axios.get(`/api/users?page=${pageIndex}`);
 };
 
-export { fetchAllUser };
+const postCreateUser = (name, job) => {
+    return axios.post("/api/users", { name, job });
+};
+
+export { fetchAllUser, postCreateUser };
