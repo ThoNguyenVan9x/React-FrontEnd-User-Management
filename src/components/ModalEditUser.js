@@ -12,7 +12,6 @@ const ModalEditUser = (props) => {
 
     const handleEditUser = async () => {
         let res = await putUpdateUser(name, job);
-        console.log(">>> check res: ", res);
         if (res && res.updatedAt) {
             // success
             handleEditUserFromModal({

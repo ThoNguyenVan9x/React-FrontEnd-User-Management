@@ -5,6 +5,7 @@ import { fetchAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalEditUser from "./ModalEditUser";
+import ModalDelete from "./ModalDelete";
 import _ from "lodash";
 
 const TableUser = (props) => {
@@ -13,11 +14,14 @@ const TableUser = (props) => {
     const [totalPage, setTotalPage] = useState(0);
 
     const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
+
     const [isShowModalEditUser, setIsShowModalEditUser] = useState(false);
     const [dataUserEdit, setDataUserEdit] = useState({});
 
+    const [isShowModalDeleteUser, setIsShowModalDeleteUser] = useState(false);
+    const [dataUserDelete, setDataUserDelete] = useState({});
+
     const handleEditUser = (user) => {
-        console.log(">>> check handle edit user, user info: ", user);
         setDataUserEdit(user);
         setIsShowModalEditUser(true);
     };
@@ -25,6 +29,7 @@ const TableUser = (props) => {
     const handleClose = () => {
         setIsShowModalAddNew(false);
         setIsShowModalEditUser(false);
+        setIsShowModalDeleteUser(false);
     };
 
     const handleUpdateTable = (user) => {
@@ -38,6 +43,18 @@ const TableUser = (props) => {
         setListUser(cloneListUser);
     };
 
+    const handleDeleteUser = (user) => {
+        setIsShowModalDeleteUser(true);
+        setDataUserDelete(user);
+    };
+
+    const handleDeleteUserFromModal = (user) => {
+        let cloneListUser = _.cloneDeep(listUser);
+
+        cloneListUser = cloneListUser.filter((item) => item.id !== user.id);
+        setListUser(cloneListUser);
+    };
+
     useEffect(() => {
         // call api
         getUsers(1);
@@ -47,7 +64,6 @@ const TableUser = (props) => {
         let res = await fetchAllUser(pageIndex);
 
         if (res && res.data) {
-            console.log(res);
             setTotalUser(res.total);
             setListUser(res.data);
             setTotalPage(res.total_pages);
@@ -63,7 +79,7 @@ const TableUser = (props) => {
             <div className="my-3 add-new-user">
                 <b>List User:</b>
                 <button
-                    className="btn btn-success"
+                    className="btn btn-primary"
                     onClick={() => setIsShowModalAddNew(true)}
                 >
                     Add new User
@@ -72,7 +88,9 @@ const TableUser = (props) => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>
+                            ID <i className="fa-solid fa-sort"></i>
+                        </th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
@@ -91,12 +109,17 @@ const TableUser = (props) => {
                                     <td>{item.email}</td>
                                     <td>
                                         <button
-                                            className="btn btn-warning mx-3"
+                                            className="btn btn-primary mx-3"
                                             onClick={() => handleEditUser(item)}
                                         >
                                             Edit
                                         </button>
-                                        <button className="btn btn-danger">
+                                        <button
+                                            className="btn btn-warning"
+                                            onClick={() =>
+                                                handleDeleteUser(item)
+                                            }
+                                        >
                                             Delete
                                         </button>
                                     </td>
@@ -134,6 +157,12 @@ const TableUser = (props) => {
                 dataUserEdit={dataUserEdit}
                 handleClose={handleClose}
                 handleEditUserFromModal={handleEditUserFromModal}
+            />
+            <ModalDelete
+                handleShow={isShowModalDeleteUser}
+                handleClose={handleClose}
+                dataUserDelete={dataUserDelete}
+                handleDeleteUserFromModal={handleDeleteUserFromModal}
             />
         </>
     );
