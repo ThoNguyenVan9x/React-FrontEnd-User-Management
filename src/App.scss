@@ -18,4 +18,64 @@ code {
         justify-content: space-between;
         align-items: center;
     }
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+
+        .title {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 600;
+            padding-top: 30px;
+        }
+
+        .text {
+            font-weight: 600;
+            padding-bottom: 3px;
+        }
+
+        input {
+            padding: 7px;
+            background-color: #f6f6f6;
+            outline: none;
+            border: 1px solid #f6f6f6;
+            border-radius: 5px;
+            margin-bottom: 7px;
+
+            &:hover {
+                background-color: #eeeeee;
+                border: 1px solid #bebebe;
+            }
+        }
+
+        .eye {
+            bottom: 19px;
+            right: 17px;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f6f6f6;
+            border: 1px solid #f6f6f6;
+
+            &.active {
+                background-color: #fe2c55;
+                border-color: #fe2c55;
+                color: white;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        button[disable="disable"],
+        button:disabled {
+            cursor: not-allowed;
+        }
+    }
 }

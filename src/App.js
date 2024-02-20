@@ -3,6 +3,9 @@ import "./App.scss";
 import Header from "./components/Header";
 import TableUser from "./components/TableUser";
 import { ToastContainer, toast } from "react-toastify";
+import Home from "./components/Home";
+import { Route, Routes } from "react-router";
+import Login from "./components/Login";
 
 function App() {
     return (
@@ -10,7 +13,11 @@ function App() {
             <div className="app-container">
                 <Header />
                 <Container>
-                    <TableUser />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/users" element={<TableUser />} />
+                        <Route path="/login" element={<Login />} />
+                    </Routes>
                 </Container>
             </div>
             <ToastContainer
